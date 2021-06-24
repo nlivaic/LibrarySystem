@@ -13,12 +13,16 @@ namespace LibrarySystem.Core.Entities
         private UserContact()
         { }
 
-        public UserContact(Guid userId, string contactNumber)
+        public UserContact(string contactNumber)
         {
-            Guards.NonDefault(userId, nameof(userId));
             Guards.NonEmpty(contactNumber, nameof(contactNumber));
             Id = Guid.NewGuid();
-            UserId = userId;
+            ContactNumber = contactNumber;
+        }
+
+        public void Update(string contactNumber)
+        {
+            Guards.NonEmpty(contactNumber, nameof(contactNumber));
             ContactNumber = contactNumber;
         }
     }

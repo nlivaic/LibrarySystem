@@ -27,5 +27,12 @@ namespace LibrarySystem.Core.Entities
             Id = Guid.NewGuid();
             TitleId = titleId;
         }
+
+        public RentEvent Borrow(Guid userId, Guid librarianId)
+        {
+            Guards.NonDefault(userId, nameof(userId));
+            Guards.NonDefault(librarianId, nameof(librarianId));
+            return new RentEvent(Id, userId, librarianId);
+        }
     }
 }

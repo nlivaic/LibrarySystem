@@ -74,6 +74,7 @@ namespace LibrarySystem.Api
             });
             services.AddControllers();
             services.AddLibrarySystemApplicationHandlers();
+            services.AddSpecificRepositories();
             services.AddGenericRepositories();
             services.AddSingleton<IScopeInformation, ScopeInformation>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

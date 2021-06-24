@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibrarySystem.Common\LibrarySystem.Common.csproj" />
+    <ProjectReference Include="..\LibrarySystem.Core\LibrarySystem.Core.csproj" />
   </ItemGroup>
 
 </Project>

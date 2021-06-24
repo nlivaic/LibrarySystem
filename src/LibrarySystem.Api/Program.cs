@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LibrarySystem.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -32,7 +33,7 @@ namespace LibrarySystem.Api
                 Log.Information("Starting up LibrarySystem.");
                 CreateHostBuilder(args)
                     .Build()
-                    //.Seed()
+                    .Seed()
                     .Run();
             }
             catch (Exception ex)
