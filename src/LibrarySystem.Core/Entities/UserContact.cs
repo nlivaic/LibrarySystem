@@ -1,4 +1,5 @@
 ﻿using LibrarySystem.Common.Base;
+using LibrarySystem.Common.Guards;
 using System;
 
 namespace LibrarySystem.Core.Entities
@@ -11,5 +12,14 @@ namespace LibrarySystem.Core.Entities
 
         private UserContact()
         { }
+
+        public UserContact(Guid userId, string contactNumber)
+        {
+            Guards.NonDefault(userId, nameof(userId));
+            Guards.NonEmpty(contactNumber, nameof(contactNumber));
+            Id = Guid.NewGuid();
+            UserId = userId;
+            ContactNumber = contactNumber;
+        }
     }
 }

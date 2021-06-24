@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LibrarySystem.Application\LibrarySystem.Application.csproj" />
   </ItemGroup>
 
