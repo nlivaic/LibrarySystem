@@ -7,6 +7,7 @@ namespace LibrarySystem.Application
     {
         public static void AddLibrarySystemApplicationHandlers(this IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(ServiceCollectionExtensions).Assembly);
             services.AddMediatR(typeof(ServiceCollectionExtensions).Assembly);
         }
     }

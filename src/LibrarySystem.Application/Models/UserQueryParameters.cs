@@ -9,6 +9,6 @@ namespace LibrarySystem.Application.Models
         public int MaximumPageSize { get; set; } = 5;
         public int PageNumber { get; set; } = 1;
         public string SearchQuery { get; set; }
-        public IEnumerable<SortCriteria> SortBy { get; set; }
+        public IEnumerable<SortCriteria> SortBy { get; set; } = new List<SortCriteria>();
     }
 }

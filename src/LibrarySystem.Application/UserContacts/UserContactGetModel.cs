@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using LibrarySystem.Core.Entities;
 
-namespace LibrarySystem.Application.Users.Queries
+namespace LibrarySystem.Application.UserContacts
 {
     public class UserContactGetModel
     {

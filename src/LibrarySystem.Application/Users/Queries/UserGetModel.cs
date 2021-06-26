@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LibrarySystem.Application.UserContacts;
 using LibrarySystem.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,9 @@ namespace LibrarySystem.Application.Users.Queries
         {
             public UserGetModelProfile()
             {
-                CreateMap<User, UserGetModel>();
+                CreateMap<User, UserGetModel>()
+                    .ForMember(dest => dest.DateOfBirth,
+                        opts => opts.MapFrom(src => src.DateOfBirth.Date));
             }
         }
     }

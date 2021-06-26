@@ -1,0 +1,31 @@
+version: '3.4'
+
+volumes:
+  pgdata:
+
+services:
+  librarysystem.api:
+    image: ${DOCKER_REGISTRY-}librarysystemapi
+    build:
+      context: .
+      dockerfile: src/LibrarySystem.Api/Dockerfile
+    ports:
+      - "5001:5001"
+    networks:
+      - lsnet
+  librarysystem.sql:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rootpw
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    command: "-p 5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - lsnet
+networks:
+  lsnet: {}

@@ -2,7 +2,10 @@ using FluentValidation.AspNetCore;
 using LibrarySystem.Api.Filters;
 using LibrarySystem.Api.Helpers;
 using LibrarySystem.Api.Middlewares;
+using LibrarySystem.Api.Models.Users;
 using LibrarySystem.Application;
+using LibrarySystem.Application.Services.Sorting;
+using LibrarySystem.Application.Users.Queries;
 using LibrarySystem.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +19,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -78,6 +82,14 @@ namespace LibrarySystem.Api
             services.AddGenericRepositories();
             services.AddSingleton<IScopeInformation, ScopeInformation>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddPropertyMappingService(opts =>
+                opts.PropertyMappings = new List<IPropertyMapping>
+                {
+                    new PropertyMapping<UserGetResponse, UserGetModel>()
+                        .Add(nameof(UserGetResponse.FirstName), nameof(UserGetModel.FirstName))
+                        .Add(nameof(UserGetResponse.LastName), nameof(UserGetModel.LastName))
+                        .Add(true, nameof(UserGetResponse.Age), nameof(UserGetModel.DateOfBirth))
+                });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(

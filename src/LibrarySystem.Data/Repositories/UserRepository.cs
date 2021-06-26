@@ -31,12 +31,13 @@ namespace LibrarySystem.Data.Repositories
             if (!string.IsNullOrWhiteSpace(userQueryParameters.SearchQuery))
             {
                 var searchQueryLowercase = userQueryParameters.SearchQuery.ToLower();
-                query = query.Where(q =>
-                    q.FirstName.ToLower().Contains(searchQueryLowercase) ||
-                    q.LastName.ToLower().Contains(searchQueryLowercase));
+                query = query.Where(u =>
+                    u.FirstName.ToLower().Contains(searchQueryLowercase) ||
+                    u.LastName.ToLower().Contains(searchQueryLowercase));
             }
             return await query
-                .Include(q => q.UserContacts)
+                .OrderBy(u => u.Id)
+                .Include(u => u.UserContacts)
                 .ApplySorting(userQueryParameters.SortBy)
                 .AsNoTracking()
                 .ApplyPagingAsync<User, UserGetModel>(

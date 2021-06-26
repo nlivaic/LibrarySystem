@@ -1,4 +1,5 @@
-﻿using Bogus;
+﻿using AutoBogus;
+using Bogus;
 using LibrarySystem.Core.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,24 +11,44 @@ namespace LibrarySystem.Data
     {
         public static IHost Seed(this IHost host)
         {
-            var ctx = host.Services.GetRequiredService<LibrarySystemDbContext>();
-            ctx.Database.EnsureCreated();
-            if (!ctx.Users.Any())
+            using (var scope = host.Services.CreateScope())
             {
-                var userFaker = new Faker<User>();
-                var userContactFaker = new Faker<UserContact>();
-                for (var i = 0; i < 9; i++)
+                var ctx = scope.ServiceProvider.GetRequiredService<LibrarySystemDbContext>();
+                ctx.Database.EnsureCreated();
+                if (!ctx.Users.Any())
                 {
-                    var user = userFaker.Generate();
-                    var userContact1 = userContactFaker.Generate();
-                    var userContact2 = userContactFaker.Generate();
-                    var userContact3 = userContactFaker.Generate();
-                    user.AddContact(userContact1);
-                    user.AddContact(userContact2);
-                    user.AddContact(userContact3);
-                    ctx.Users.Add(user);
+                    var userFaker = new Faker<User>();
+                    var userContactFaker = new Faker<UserContact>();
+                    for (var i = 0; i < 9; i++)
+                    {
+                        var user = AutoFaker.Generate<User>(cfg =>
+                        {
+                            cfg.WithSkip<User>(nameof(User.IsEnabled));
+                            cfg.WithSkip<User>(nameof(User.RentEvents));
+                            cfg.WithSkip<User>(nameof(User.UserContacts));
+                        });
+                        var userContact1 = AutoFaker.Generate<UserContact>(cfg =>
+                        {
+                            cfg.WithSkip<UserContact>(nameof(UserContact.User));
+                            cfg.WithSkip<UserContact>(nameof(UserContact.UserId));
+                        });
+                        var userContact2 = AutoFaker.Generate<UserContact>(cfg =>
+                        {
+                            cfg.WithSkip<UserContact>(nameof(UserContact.User));
+                            cfg.WithSkip<UserContact>(nameof(UserContact.UserId));
+                        });
+                        var userContact3 = AutoFaker.Generate<UserContact>(cfg =>
+                        {
+                            cfg.WithSkip<UserContact>(nameof(UserContact.User));
+                            cfg.WithSkip<UserContact>(nameof(UserContact.UserId));
+                        });
+                        user.AddContact(userContact1);
+                        user.AddContact(userContact2);
+                        user.AddContact(userContact3);
+                        ctx.Users.Add(user);
+                    }
+                    ctx.SaveChanges();
                 }
-                ctx.SaveChanges();
             }
 
             return host;

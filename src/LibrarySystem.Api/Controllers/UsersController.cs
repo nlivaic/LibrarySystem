@@ -1,4 +1,7 @@
-﻿using LibrarySystem.Api.Constants;
+﻿using AutoMapper;
+using LibrarySystem.Api.Constants;
+using LibrarySystem.Api.Models.Users;
+using LibrarySystem.Api.ResourceParameters;
 using LibrarySystem.Application.Models;
 using LibrarySystem.Application.Users.Queries;
 using MediatR;
@@ -17,10 +20,12 @@ namespace LibrarySystem.Api.Controllers
     public class UsersController : Controller
     {
         private readonly ISender _sender;
+        private readonly IMapper _mapper;
 
-        public UsersController(ISender sender)
+        public UsersController(ISender sender, IMapper mapper)
         {
             _sender = sender;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -31,30 +36,31 @@ namespace LibrarySystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Produces("application/json")]
         [HttpGet("{userId}")]
-        public async Task<ActionResult<UserGetModel>> Get([FromRoute] Guid userId)
+        public async Task<ActionResult<UserGetResponse>> Get([FromRoute] Guid userId)
         {
             var getUserQuery = new GetUserQuery
             {
                 UserId = userId
             };
             var result = await _sender.Send(getUserQuery);
-            return Ok(result);
+            var response = _mapper.Map<UserGetResponse>(result);
+            return Ok(response);
         }
 
         /// <summary>
         /// Retrieves a paged list of users.
         /// Supports searching on first name and last name.
         /// </summary>
-        /// <param name="userQueryParameters">specify page number, paging parameteres and search terms.</param>
+        /// <param name="userResourceParameters">specify page number, paging parameteres and search terms.</param>
         /// <returns>Paged list of users.</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Produces("application/json")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserGetModel>>> GetPagedUsers([FromQuery] UserQueryParameters userQueryParameters)
+        public async Task<ActionResult<IEnumerable<UserGetModel>>> GetPagedUsers([FromQuery] UserResourceParameters userResourceParameters)
         {
             var getUsersQuery = new GetUsersQuery
             {
-                UserQueryParameters = userQueryParameters
+                UserQueryParameters = _mapper.Map<UserQueryParameters>(userResourceParameters)
             };
             var pagedResults = await _sender.Send(getUsersQuery);
             HttpContext.Response.Headers.Add(
