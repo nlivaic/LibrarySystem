@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using LibrarySystem.Application.Users.Queries;
 using LibrarySystem.Common.Interfaces;
 using LibrarySystem.Core.Entities;
 using MediatR;

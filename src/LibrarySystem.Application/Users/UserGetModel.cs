@@ -4,7 +4,7 @@ using LibrarySystem.Core.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace LibrarySystem.Application.Users.Queries
+namespace LibrarySystem.Application.Users
 {
     public class UserGetModel
     {

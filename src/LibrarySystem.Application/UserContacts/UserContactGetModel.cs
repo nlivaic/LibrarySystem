@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using LibrarySystem.Core.Entities;
+using System;
 
 namespace LibrarySystem.Application.UserContacts
 {
     public class UserContactGetModel
     {
-        public string ContactNumber { get; private set; }
+        public Guid Id { get; set; }
+        public string ContactNumber { get; set; }
 
         class UserContactGetModelProfile : Profile
         {

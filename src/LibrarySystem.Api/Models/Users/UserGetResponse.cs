@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using LibrarySystem.Api.Models.UserContacts;
-using LibrarySystem.Application.Users.Queries;
+using LibrarySystem.Application.Users;
 using System;
 using System.Collections.Generic;
 

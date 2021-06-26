@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using LibrarySystem.Application.Interfaces;
 using LibrarySystem.Application.Models;
-using LibrarySystem.Application.Users.Queries;
+using LibrarySystem.Application.Users;
 using LibrarySystem.Common.Paging;
 using LibrarySystem.Core.Entities;
 using LibrarySystem.Data.QueryableExtensions;
@@ -23,6 +23,17 @@ namespace LibrarySystem.Data.Repositories
         {
             _mapper = mapper;
         }
+
+        public async override Task<User> GetByIdAsync(Guid id, bool isTracked = true) =>
+            await GetSingleAsync(u =>
+                u.IsEnabled &&
+                u.Id == id);
+
+        public async Task<User> GetWithUserContacts(Guid id) =>
+            await _context
+                .Users
+                .Include(u => u.UserContacts)
+                .SingleOrDefaultAsync(u => u.Id == id && u.IsEnabled);
 
         public async Task<PagedList<UserGetModel>> GetPagedUsers(UserQueryParameters userQueryParameters)
         {

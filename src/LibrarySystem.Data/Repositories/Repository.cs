@@ -18,7 +18,7 @@ namespace LibrarySystem.Data.Repositories
             _context = context;
         }
 
-        public async Task<T> GetByIdAsync(Guid id, bool isTracked = true)
+        public async virtual Task<T> GetByIdAsync(Guid id, bool isTracked = true)
         {
             var q = _context.Set<T>() as IQueryable<T>;
             if (!isTracked)

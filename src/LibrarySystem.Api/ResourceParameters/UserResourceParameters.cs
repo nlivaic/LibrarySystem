@@ -4,7 +4,7 @@ using LibrarySystem.Api.Models.Users;
 using LibrarySystem.Application.Models;
 using LibrarySystem.Application.Services.Sorting;
 using LibrarySystem.Application.Services.Sorting.Models;
-using LibrarySystem.Application.Users.Queries;
+using LibrarySystem.Application.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;

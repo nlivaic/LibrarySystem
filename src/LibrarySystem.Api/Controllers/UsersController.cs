@@ -3,6 +3,7 @@ using LibrarySystem.Api.Constants;
 using LibrarySystem.Api.Models.Users;
 using LibrarySystem.Api.ResourceParameters;
 using LibrarySystem.Application.Models;
+using LibrarySystem.Application.Users;
 using LibrarySystem.Application.Users.Commands;
 using LibrarySystem.Application.Users.Queries;
 using MediatR;

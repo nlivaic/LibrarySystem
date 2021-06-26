@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LibrarySystem.Application.Interfaces;
 using LibrarySystem.Common.Exceptions;
 using LibrarySystem.Common.Guards;
 using LibrarySystem.Common.Interfaces;
@@ -16,11 +17,11 @@ namespace LibrarySystem.Application.Users.Queries
 
         class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserGetModel>
         {
-            private readonly IRepository<User> _repository;
+            private readonly IUserRepository _repository;
             private readonly IMapper _mapper;
 
             public GetUserQueryHandler(
-                IRepository<User> repository,
+                IUserRepository repository,
                 IMapper mapper)
             {
                 _repository = repository;
@@ -29,10 +30,7 @@ namespace LibrarySystem.Application.Users.Queries
 
             public async Task<UserGetModel> Handle(GetUserQuery request, CancellationToken cancellationToken)
             {
-                var user = await _repository
-                    .GetSingleAsync(u =>
-                        u.IsEnabled &&
-                        u.Id == request.UserId);
+                var user = await _repository.GetByIdAsync(request.UserId);
                 Guards.NonNull(user, request.UserId);
                 return _mapper.Map<UserGetModel>(user);
             }

@@ -5,7 +5,7 @@ using LibrarySystem.Api.Middlewares;
 using LibrarySystem.Api.Models.Users;
 using LibrarySystem.Application;
 using LibrarySystem.Application.Services.Sorting;
-using LibrarySystem.Application.Users.Queries;
+using LibrarySystem.Application.Users;
 using LibrarySystem.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
