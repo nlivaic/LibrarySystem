@@ -12,7 +12,7 @@ namespace LibrarySystem.Core.Entities
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public DateTime DateOfBirth { get; private set; }
-        public bool IsEnabled { get; set; }
+        public bool IsEnabled { get; private set; }
         public IEnumerable<RentEvent> RentEvents => _rentEvents;
         public IEnumerable<UserContact> UserContacts => _userContact;
 

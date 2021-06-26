@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using LibrarySystem.Common.Exceptions;
+using LibrarySystem.Common.Guards;
 using LibrarySystem.Common.Interfaces;
 using LibrarySystem.Core.Entities;
 using MediatR;
@@ -27,7 +29,11 @@ namespace LibrarySystem.Application.Users.Queries
 
             public async Task<UserGetModel> Handle(GetUserQuery request, CancellationToken cancellationToken)
             {
-                var user = await _repository.GetByIdAsync(request.UserId);
+                var user = await _repository
+                    .GetSingleAsync(u =>
+                        u.IsEnabled &&
+                        u.Id == request.UserId);
+                Guards.NonNull(user, request.UserId);
                 return _mapper.Map<UserGetModel>(user);
             }
         }
