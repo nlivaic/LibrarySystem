@@ -1,7 +1,6 @@
 ﻿using LibrarySystem.Core.Entities;
-using LibrarySystem.Infrastructure.Scanner;
 
-namespace LibrarySystem.Infrastructure.UserParser
+namespace LibrarySystem.Infrastructure.Scanner
 {
     public interface IUserParser
     {

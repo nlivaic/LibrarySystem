@@ -1,6 +1,5 @@
 ﻿using LibrarySystem.Application.Interfaces;
 using LibrarySystem.Infrastructure.Scanner;
-using LibrarySystem.Infrastructure.UserParser;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System;
@@ -15,7 +14,7 @@ namespace LibrarySystem.Infrastructure
         {
             var options = new InfrastructureOptions();
             optionsConfiguration?.Invoke(options);
-            services.AddScoped<IIdentityCardScannerService, IdentityCardScannerService>();
+            services.AddScoped<IScannerService, IdentityCardScannerService>();
             services.AddHttpClient(HttpClientName.MicroBlinkClient, client =>
             {
                 client.BaseAddress = options.MbUri;
@@ -23,8 +22,9 @@ namespace LibrarySystem.Infrastructure
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             }).AddHttpMessageHandler<ApiKeyHandler>();
             services.AddTransient<ApiKeyHandler>();
-            services.AddTransient<IUserParser, UserParser.UserParser>();
-            services.AddSingleton<InfrastructureOptions>(options);
+            services.AddTransient<IUserParser, UserParser>();
+            services.AddSingleton(options);
+            services.AddScoped<ICheckDigitService, Td1CheckDigitService>();
         }
     }
 }

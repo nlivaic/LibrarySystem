@@ -110,7 +110,7 @@ namespace LibrarySystem.Api.Controllers
             };
             var result = await _sender.Send(createUserFromIdentityCardCommand);
             var response = _mapper.Map<UserGetResponse>(result);
-            return Ok();
+            return CreatedAtRoute("Get", new { userId = response.Id }, response);
         }
 
         /// <summary>

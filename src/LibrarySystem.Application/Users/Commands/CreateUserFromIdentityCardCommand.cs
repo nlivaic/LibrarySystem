@@ -16,14 +16,14 @@ namespace LibrarySystem.Application.Users.Commands
 
         class CreateUserFromIdentityCardCommandHandler : IRequestHandler<CreateUserFromIdentityCardCommand, UserGetModel>
         {
-            private readonly IIdentityCardScannerService _identityCardScannerService;
+            private readonly IScannerService _identityCardScannerService;
             private readonly IRepository<User> _userRepository;
             private readonly IUnitOfWork _uow;
             private readonly IMapper _mapper;
             private readonly ILogger<CreateUserFromIdentityCardCommand> _logger;
 
             public CreateUserFromIdentityCardCommandHandler(
-                IIdentityCardScannerService identityCardScannerService,
+                IScannerService identityCardScannerService,
                 IRepository<User> userRepository,
                 IUnitOfWork uow,
                 IMapper mapper,

@@ -1,7 +1,5 @@
 ﻿using LibrarySystem.Application.Interfaces;
-using LibrarySystem.Application.Users.Commands;
 using LibrarySystem.Core.Entities;
-using LibrarySystem.Infrastructure.UserParser;
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -9,15 +7,18 @@ using System.Threading.Tasks;
 
 namespace LibrarySystem.Infrastructure.Scanner
 {
-    public class IdentityCardScannerService : IIdentityCardScannerService
+    public class IdentityCardScannerService : IScannerService
     {
+        private readonly ICheckDigitService _checkDigitService;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IUserParser _userParser;
 
         public IdentityCardScannerService(
+            ICheckDigitService checkDigitService,
             IHttpClientFactory httpClientFactory,
             IUserParser userParser)
         {
+            _checkDigitService = checkDigitService;
             _httpClientFactory = httpClientFactory;
             _userParser = userParser;
         }
@@ -30,6 +31,7 @@ namespace LibrarySystem.Infrastructure.Scanner
             HttpResponseMessage httpResponse = await client.PostAsJsonAsync(string.Empty, mrzIdRequest);
             httpResponse.EnsureSuccessStatusCode();
             var response = await httpResponse.Content.ReadFromJsonAsync<MrzIdResponse>();
+            _checkDigitService.Validate(response.Result.MrzData.RawMrzString);
             var user = _userParser.Parse(response);
             return user;
         }

@@ -1,8 +1,7 @@
 ﻿using LibrarySystem.Core.Entities;
-using LibrarySystem.Infrastructure.Scanner;
 using System;
 
-namespace LibrarySystem.Infrastructure.UserParser
+namespace LibrarySystem.Infrastructure.Scanner
 {
     public class UserParser : IUserParser
     {
@@ -12,11 +11,11 @@ namespace LibrarySystem.Infrastructure.UserParser
             var mrzMiddleRow = rawUser.Split("\n")[1];
             var rawDob = mrzMiddleRow[..6];
             var dob = new DateTime(
-                Int32.Parse(rawDob[0..2]),
-                Int32.Parse(rawDob[2..4]),
-                Int32.Parse(rawDob[4..6]));
+                1900 + int.Parse(rawDob[0..2]),
+                int.Parse(rawDob[2..4]),
+                int.Parse(rawDob[4..6]));
             var mrzLastRowTokenized = rawUser.Split("\n")[2].Split("<<");
-            return new User(mrzLastRowTokenized[0], mrzLastRowTokenized[1], dob);
+            return new User(string.Join(" ", mrzLastRowTokenized[1].Split('<')), mrzLastRowTokenized[0], dob);
         }
     }
 }
