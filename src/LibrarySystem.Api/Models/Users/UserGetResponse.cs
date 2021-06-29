@@ -14,7 +14,7 @@ namespace LibrarySystem.Api.Models.Users
         public int Age { get; set; }
         public IEnumerable<UserContactGetResponse> UserContacts { get; set; }
 
-        public class UserGetResponseProfile : Profile
+        class UserGetResponseProfile : Profile
         {
             public UserGetResponseProfile()
             {

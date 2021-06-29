@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using LibrarySystem.Application.UserContacts.Commands;
-using System;
 
 namespace LibrarySystem.Api.Models.UserContacts
 {
@@ -13,6 +13,16 @@ namespace LibrarySystem.Api.Models.UserContacts
             public UserContactUpdateRequestProfile()
             {
                 CreateMap<UserContactUpdateRequest, UpdateUserContactCommand>();
+            }
+        }
+
+        public class UserContactUpdateRequestValidator : AbstractValidator<UserContactUpdateRequest>
+        {
+            public UserContactUpdateRequestValidator()
+            {
+                RuleFor(x => x.ContactNumber)
+                    .NotEmpty()
+                    .WithMessage("Contact Number cannot be empty.");
             }
         }
     }

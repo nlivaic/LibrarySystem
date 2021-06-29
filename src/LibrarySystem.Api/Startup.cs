@@ -7,6 +7,7 @@ using LibrarySystem.Application;
 using LibrarySystem.Application.Services.Sorting;
 using LibrarySystem.Application.Users;
 using LibrarySystem.Data;
+using LibrarySystem.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -82,6 +83,12 @@ namespace LibrarySystem.Api
             services.AddGenericRepositories();
             services.AddSingleton<IScopeInformation, ScopeInformation>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddInfrastructureServices(opts =>
+            {
+                opts.MbUri = new Uri(_configuration["IdentityScanner:IdentityCardScannerUri"]);
+                opts.ApiKey = _configuration["IdentityScanner:ApiKey"];
+                opts.ApiSecret = _configuration["IdentityScanner:ApiSecret"];
+            });
             services.AddPropertyMappingService(opts =>
                 opts.PropertyMappings = new List<IPropertyMapping>
                 {

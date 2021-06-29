@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -88,6 +89,28 @@ namespace LibrarySystem.Api.Controllers
             var result = await _sender.Send(createUserCommand);
             var response = _mapper.Map<UserGetResponse>(result);
             return CreatedAtRoute("Get", new { userId = response.Id }, response);
+        }
+
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [Produces("application/json")]
+        //[Consumes("image/jpeg")]
+        [HttpPost("identitycard")]
+        public async Task<ActionResult<UserGetResponse>> PostIdentityCard([FromForm(Name = "image")] IFormFile image)
+        {
+            byte[] fileBytes;
+            using (var ms = new MemoryStream())
+            {
+                image.CopyTo(ms);
+                fileBytes = ms.ToArray();
+            }
+            var createUserFromIdentityCardCommand = new CreateUserFromIdentityCardCommand
+            {
+                IdentityCardImage = fileBytes
+            };
+            var result = await _sender.Send(createUserFromIdentityCardCommand);
+            var response = _mapper.Map<UserGetResponse>(result);
+            return Ok();
         }
 
         /// <summary>

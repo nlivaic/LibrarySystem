@@ -32,6 +32,7 @@
     <ProjectReference Include="..\LibrarySystem.Application\LibrarySystem.Application.csproj" />
     <ProjectReference Include="..\LibrarySystem.Common\LibrarySystem.Common.csproj" />
     <ProjectReference Include="..\LibrarySystem.Data\LibrarySystem.Data.csproj" />
+    <ProjectReference Include="..\LibrarySystem.Infrastructure\LibrarySystem.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
