@@ -16,6 +16,7 @@ namespace LibrarySystem.Core.Entities
         public DateTime DateRented { get; private set; }
         public DateTime DateDue { get; private set; }
         public DateTime? DateReturned { get; private set; }
+        public bool IsReturned { get; private set; }
 
         private RentEvent()
         { }
@@ -36,6 +37,7 @@ namespace LibrarySystem.Core.Entities
         public void TitleReturned()
         {
             DateReturned = DateTime.UtcNow;
+
             //if (DateReturned > DateDue)
             //{
             //    Raise an event .

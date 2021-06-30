@@ -16,5 +16,11 @@ namespace LibrarySystem.Data
         public DbSet<TitleCopy> TitleCopies { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserContact> UserContacts { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RentEvent>()
+                .HasIndex(nameof(RentEvent.IsReturned), nameof(RentEvent.DateDue));
+        }
     }
 }
